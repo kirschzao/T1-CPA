@@ -1,7 +1,7 @@
 # Trabalho 1 - CPA
 
 ## Descrição
-Este projeto é parte do Trabalho 1 da disciplina de CPA. Ele tem como objetivo fazer um web scraping para coleta de dados. Os dados que serão coletados pertencem unicamente a infoboxes da wikipédia.
+Este projeto é parte do Trabalho 1 da disciplina de CPA. Ele tem como objetivo fazer um web scraping para coleta de dados. Os dados que serão coletados pertencem unicamente a infoboxes da wikipédia. Os resultados estão no repositório do GitHub!!
 
 ## Estrutura do Projeto
 - **/src**: Código-fonte do projeto.
