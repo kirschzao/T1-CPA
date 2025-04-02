@@ -34,7 +34,7 @@ def crawler():
   #Fila de URLs a visitar
   queue = [START_URL]  
 
-  while queue and len(visited) < 50:
+  while queue and len(visited) <= 5000:
     url = queue.pop(0)
     if url in visited:
       continue

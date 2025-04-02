@@ -1,5 +1,5 @@
-from src.scraping import crawler
-from src.infobox import processa_infoboxes
+from scraping import crawler
+from infobox import processa_infoboxes
 
 def main():
     print("Iniciando o crawler")
