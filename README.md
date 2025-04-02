@@ -14,7 +14,7 @@ Este projeto é parte do Trabalho 1 da disciplina de CPA. Ele tem como objetivo 
 ## Como Executar
 1. Clone o repositório:
   ```bash
-  git clone [https://github.com/kirschzao/T1-CPA.git]
+  git clone https://github.com/kirschzao/T1-CPA.git
   ```
 2. Navegue até o diretório do projeto:
   ```bash
@@ -26,4 +26,4 @@ Este projeto é parte do Trabalho 1 da disciplina de CPA. Ele tem como objetivo 
   ```
 
 ## Autores
-- [Bernardo Medeiros, Bernardo Kirsch, Iuri Queiroz e Luiza Flores]
+- Bernardo Medeiros, Bernardo Kirsch, Iuri Queiroz e Luiza Flores
