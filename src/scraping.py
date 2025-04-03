@@ -81,7 +81,7 @@ def crawler():
           queue.append(full_url)
 
     # Delay para evitar sobrecarregar o servidor
-    time.sleep(1)
+    time.sleep(0.5)
 
   print(f"Crawling finalizado. Páginas visitadas: {len(visited)}")
 

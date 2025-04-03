@@ -1,0 +1,23 @@
+{
+  "titulo": "Províncias de Angola",
+  "dados": {
+    "Categoria": "Província",
+    "Local": "República de Angola",
+    "Populações": [
+      "Menor população:",
+      "Bengo",
+      ", 356.641",
+      "Maior população:",
+      "Luanda",
+      ", 6.945.386"
+    ],
+    "Áreas": [
+      "Menor:",
+      "Cabinda",
+      ", 7.270 km²",
+      "Maior:",
+      "Moxico",
+      ", 223.023 km²"
+    ]
+  }
+}
