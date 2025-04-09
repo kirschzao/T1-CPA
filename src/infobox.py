@@ -5,21 +5,27 @@ import hashlib
 from bs4 import BeautifulSoup
 
 def valid_filename(name):
+    """Remove caracteres inválidos e substitui espaços por underscores."""
     name = re.sub(r'[\\/*?:"<>|]', "", name)
     return name.replace(" ", "_")
 
+def safe_print(text):
+    print(text.encode("ascii", "ignore").decode())
+
 def extrai_infoboxes(filepath):
+    """Extrai todas as infoboxes de um arquivo HTML."""
     with open(filepath, "rb") as f:
         content = f.read()
     soup = BeautifulSoup(content, "html.parser")
 
+    # Pega qualquer <table> com 'infobox' na classe
     infoboxes = soup.find_all("table", class_=lambda c: c and "infobox" in c)
     if not infoboxes:
         return []
 
-    extracted = []
+    extraidas = []
     for idx, infobox in enumerate(infoboxes):
-        # Tentativa de extrair título (caption > th > fallback)
+        # Tenta obter o título da infobox
         caption = infobox.find("caption")
         if caption:
             title = caption.get_text(strip=True)
@@ -27,28 +33,28 @@ def extrai_infoboxes(filepath):
             th = infobox.find("th")
             title = th.get_text(strip=True) if th else f"Infobox_{idx+1}"
 
-        data = {}
+        dados = {}
         for row in infobox.find_all("tr"):
             header = row.find("th")
             cell = row.find("td")
             if header and cell:
-                key = header.get_text(strip=True)
+                chave = header.get_text(strip=True)
                 if cell.find("ul"):
-                    values = [li.get_text(strip=True) for li in cell.find_all("li") if li.get_text(strip=True)]
-                    data[key] = values
+                    dados[chave] = [li.get_text(strip=True) for li in cell.find_all("li")]
                 elif cell.find("br"):
-                    parts = [part.strip() for part in cell.get_text(separator="|", strip=True).split("|") if part.strip()]
-                    data[key] = parts if len(parts) > 1 else parts[0]
+                    partes = [part.strip() for part in cell.get_text(separator="|", strip=True).split("|") if part.strip()]
+                    dados[chave] = partes if len(partes) > 1 else partes[0]
                 else:
-                    data[key] = cell.get_text(strip=True)
+                    dados[chave] = cell.get_text(strip=True)
 
-        if data:
-            extracted.append({
+        if dados:
+            extraidas.append({
                 "titulo": title,
-                "dados": data,
+                "dados": dados,
                 "origem_html": os.path.basename(filepath)
             })
-    return extracted
+
+    return extraidas
 
 def processa_infoboxes():
     pages_dir = "pages"
@@ -56,20 +62,27 @@ def processa_infoboxes():
     os.makedirs(output_dir, exist_ok=True)
 
     for filename in os.listdir(pages_dir):
-        if filename.endswith(".html"):
-            filepath = os.path.join(pages_dir, filename)
-            resultados = extrai_infoboxes(filepath)
+        if filename.lower().endswith(".html"):
+            caminho_html = os.path.join(pages_dir, filename)
+            infoboxes = extrai_infoboxes(caminho_html)
 
-            for idx, infobox in enumerate(resultados):
-                title = infobox["titulo"]
-                base_name = valid_filename(title)
+            for idx, infobox in enumerate(infoboxes):
+                titulo = infobox["titulo"]
+                nome_base = valid_filename(titulo)
                 origem = os.path.splitext(filename)[0]
 
-                # Garante nome único (caso haja mais de uma infobox com mesmo título)
-                hash_part = hashlib.md5(f"{title}_{idx}_{origem}".encode()).hexdigest()[:6]
-                json_filename = f"{base_name}_{hash_part}.json"
+                # Nome único com hash curto
+                hash_id = hashlib.md5(f"{titulo}_{idx}_{origem}".encode()).hexdigest()[:6]
+                nome_json = f"{nome_base}_{hash_id}.json"
 
-                out_path = os.path.join(output_dir, json_filename)
-                with open(out_path, "w", encoding="utf-8") as f:
+                caminho_saida = os.path.join(output_dir, nome_json)
+                with open(caminho_saida, "w", encoding="utf-8") as f:
                     json.dump(infobox, f, ensure_ascii=False, indent=2)
-                print(f"Infobox salva: {out_path}".encode('utf-8', errors='replace').decode())
+                safe_print(f"Infobox salva: {caminho_saida}")
+
+
+
+
+
+
+
